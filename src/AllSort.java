@@ -1,67 +1,87 @@
-import java.util.*;
+import java.util.Scanner;
 
 public class AllSort {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int Stugrade[] = new int[100];
+        int[] Stugrade = new int[0];
+        int size;
         int sgpos = 0;
-        int stupos =0;
+        int stupos;
+        int index;
+        int GradeInput;
+        int option;
+        int sortoption;
         boolean loop = true;
         boolean sortloop = true;
-        int option = 0;
-        int sortoption = 0;
-        int GradeInput = 0;
-        int index = 0;
+        boolean ask = true;
+        Scanner sc = new Scanner(System.in);
         Selection selsort = new Selection();
         Heap heapsort = new Heap();
         Insertion insertsort = new Insertion();
         Merge Mergesort = new Merge();
+        utility util = new utility();
 
         do {
+            if (ask)
+            {
+                System.out.println("insert amount of student : ");
+                size = sc.nextInt();
+                Stugrade = new int[size];
+                ask = false;
+            }
             System.out.println("Menu ");
             System.out.println("1 - enter student grade in array");
             System.out.println("2 - display student grade list");
             System.out.println("3 - display student grade at index #");
             System.out.println("4 - sort array");
             System.out.println("5 - exit");
-
+            System.out.println("Enter option : ");
             option = sc.nextInt();
+            System.out.println(" ");
 
             switch (option)
             {
                 case 1:
-                    System.out.println("Enter student grade for student no "+(sgpos+1));
-                    GradeInput = sc.nextInt();
-                    if (GradeInput < 0 || GradeInput >100)
+
+                    if (sgpos >= Stugrade.length)
                     {
-                        System.out.println("The Number you enter is not invalid");
+                        System.out.println("student amount is "+Stugrade.length+" can't enter more student grade!");
+                        System.out.println(" ");
+                        util.timeDelay(1000);
                     }
                     else
                     {
-                        Stugrade[sgpos] = GradeInput;
-                        sgpos++;
+                        System.out.println("Enter student grade for student no "+(sgpos+1)+" : ");
+                        GradeInput = sc.nextInt();
+                        util.timeDelay(1000);
+                        if (GradeInput < 0 || GradeInput >100)
+                        {
+                            System.out.println("The grad you enter is invalid");
+                        }
+                        else
+                        {
+                            Stugrade[sgpos] = GradeInput;
+                            sgpos++;
+                        }
+
                     }
                     break;
+
                 case 2:
                     stupos = 0;
-                    if (Stugrade[0] < 0 || Stugrade[0] > 100)
-                    {
-                        System.out.println("Array is empty");
-                    }
-                    else
-                    {
+                    System.out.println("=================================");
                         for (int i = 0; i < Stugrade.length ;i++)
                         {
-                            if(Stugrade[stupos] > 0 && Stugrade[stupos] <= 100)
+                            if(Stugrade[stupos] >= 0 && Stugrade[stupos] <= 100)
                             {
-                                System.out.println((stupos+1)+" : "+Stugrade[i]);
+                                System.out.println("student "+(stupos+1)+" : "+Stugrade[i]);
                                 stupos++;
                             }
                         }
-                    }
+                    System.out.println("=================================");
+                    System.out.println(" ");
                     break;
                 case 3:
-                    System.out.println("enter index of student to display");
+                    System.out.println("enter student number to display student grade");
                     index = sc.nextInt();
                     if (index < 0 || index > 100)
                     {
@@ -89,16 +109,41 @@ public class AllSort {
                         {
                             case 1:
                                 heapsort.heapSort(Stugrade);
+                                System.out.println(" ");
+                                heapsort.display(Stugrade);
+                                System.out.println(" ");
+                                System.out.println(" ");
+                                sortloop = false;
                                 break;
                             case 2:
+                                insertsort.insertionSort(Stugrade, Stugrade.length);
+                                System.out.println(" ");
+                                insertsort.display(Stugrade);
+                                System.out.println(" ");
+                                System.out.println(" ");
+                                sortloop = false;
                                 break;
                             case 3:
+                                Mergesort.mergeSort(Stugrade,0, Stugrade.length-1);
+                                System.out.println(" ");
+                                Mergesort.display(Stugrade);
+                                System.out.println(" ");
+                                System.out.println(" ");
+                                sortloop = false;
                                 break;
                             case 4:
+                                selsort.selectionSort(Stugrade);
+                                System.out.println(" ");
+                                selsort.display(Stugrade);
+                                System.out.println(" ");
+                                System.out.println(" ");
+                                sortloop = false;
                                 break;
                             case 5:
                                 sortloop = false;
                                 break;
+                            default:
+                                System.out.println("option didn't exist");
                         }
                     }while (sortloop);
                     break;
@@ -106,7 +151,7 @@ public class AllSort {
                     loop = false;
                     break;
                 default:
-                    System.out.println("Option didnt exist");
+                    System.out.println("option didn't exist");
                     break;
             }
         }while(loop);
